@@ -72,7 +72,7 @@ riscv_vm/
 ├── Makefile
 └── README.md
 
-
+```
 
 ---
 
@@ -89,7 +89,7 @@ riscv_vm/
 make clean
 make
 ./riscv_vm
-
+```
 ### Example Out
 
 Booting RISC-V VM...
