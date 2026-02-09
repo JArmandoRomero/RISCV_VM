@@ -91,7 +91,7 @@ make
 ./riscv_vm
 ```
 ### Example Out
-
+```bash
 Booting RISC-V VM...
 
 ██████╗ ██╗███████╗ ██████╗              ██╗   ██╗
@@ -105,3 +105,4 @@ RISC-V Machine initialized
 Memory Size : 1048576 bytes (1 MiB)
 Stack Ptr   : 0x100000
 PC          : 0
+```
