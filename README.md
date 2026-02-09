@@ -55,7 +55,7 @@ This repository currently contains the implementation for **Part I: Machine Setu
 ---
 
 ## Project Structure
-
+```bash
 riscv_vm/
 ├── include/
 │ ├── memory.hpp
