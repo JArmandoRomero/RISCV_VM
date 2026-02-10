@@ -1,4 +1,4 @@
-#include "Register_file.hpp"
+#include "register_file.hpp"
 
 RegisterFile::RegisterFile(){
 
