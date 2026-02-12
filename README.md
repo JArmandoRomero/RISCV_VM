@@ -68,9 +68,11 @@ riscv_vm/
 │ ├── registers.cpp
 │ ├── machine.cpp
 │ └── main.cpp
+│ └── test_machine.cpp
 │
 ├── Makefile
 └── README.md
+└── test_machine_output.txt
 
 ```
 
@@ -90,7 +92,14 @@ make clean
 make
 ./riscv_vm
 ```
-### Example Out
+### Testing Fro Grading
+```bash
+make clean
+make
+./riscv_vm > my_output.txt
+diff my_output.txt test_machine_output.txt
+```
+### Example Out (Commented Out For Testing)
 ```bash
 Booting RISC-V VM...
 

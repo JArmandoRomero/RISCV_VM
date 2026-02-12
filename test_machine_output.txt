@@ -1,0 +1,65 @@
+Test Reading Value From Empty Register:
+Value in x4: 0
+Test Writing Value To Register:
+Write value 42 to register 5.
+Test Reading From Written To Register:
+Value in x5: 42
+Test Writing To Zero Register:
+Write value 99 to register 0.
+Value in x0 (should still be 0): 0
+Print All Registers:
+REGISTERS
+---------
+x0: 0
+x1: 0
+x2: 0
+x3: 0
+x4: 0
+x5: 42
+x6: 0
+x7: 0
+x8: 0
+x9: 0
+x10: 0
+x11: 0
+x12: 0
+x13: 0
+x14: 0
+x15: 0
+x16: 0
+x17: 0
+x18: 0
+x19: 0
+x20: 0
+x21: 0
+x22: 0
+x23: 0
+x24: 0
+x25: 0
+x26: 0
+x27: 0
+x28: 0
+x29: 0
+x30: 0
+x31: 0
+---------
+Test Reading And Writing Byte To Memory:
+Write value 9xAB to location 100.
+Byte at 100: 0xab
+Test Reading And Writing Word To Memory:
+Write value 0x12345678to location 104.
+Word at 104: 0x12345678
+Test Overwriting In Memory:
+Write value 0x87654321location 104.
+Word at 104 after overwrite: 0x87654321
+Memory dump from 100 to 108:
+MEMORY
+------
+mem[0x64]: 0xab
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0x21
+mem[0x69]: 0x43
+mem[0x6a]: 0x65
+mem[0x6b]: 0x87

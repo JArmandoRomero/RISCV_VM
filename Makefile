@@ -1,10 +1,10 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude
 
-SRC = src/main.cpp \
-      src/memory.cpp \
-      src/register_File.cpp \
-      src/machine.cpp
+SRC = src/memory.cpp \
+      src/register.cpp \
+      src/machine.cpp \
+	  src/test_machine.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 TARGET = riscv_vm
