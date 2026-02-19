@@ -74,7 +74,7 @@ void test_memory() {
 }
 
 
-int main(int argc, char* argv[]) {
+int main(/*int argc, char* argv[]*/) {
     Machine machine;
 
 
