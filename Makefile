@@ -8,6 +8,7 @@ SRC = src/memory.cpp \
       src/machine.cpp \
 	  src/test_machine.cpp \
 	  src/elf_loader.cpp \
+	  src/test_elf.cpp \
 
 
 OBJ = $(SRC:.cpp=.o)
