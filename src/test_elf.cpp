@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "register.h"
-#include "memory.h"
-#include "machine.h"
-#include "elfloader.h"
+#include "register.hpp"
+#include "memory.hpp"
+#include "machine.hpp"
+#include "elf_loader.hpp"
 #include <iomanip>
 #include <bitset>
 
 
 void test_elf(Machine& machine, std::string elf_filename) {
-    if (!load_elf(elf_filename, machine)) {
+    if (!loadELF(elf_filename, machine)) {
         std::cerr << "Failed to load ELF file: " << elf_filename << std::endl;
         return;
     }
@@ -17,7 +17,7 @@ void test_elf(Machine& machine, std::string elf_filename) {
     std::cout << "ELF file loaded successfully." << std::endl;
 
     // Optional: print initial PC or memory region
-    std::cout << "Initial PC: 0x" << std::hex << machine.get_pc() << std::dec << std::endl;
+    std::cout << "Initial PC: 0x" << std::hex << machine.getPC() << std::dec << std::endl;
 
 
     machine.dump_memory_to_file("memdump.bin");
