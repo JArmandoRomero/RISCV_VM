@@ -54,6 +54,89 @@ This repository currently contains the implementation for **Part I: Machine Setu
 
 ---
 
+## Part II: ELF Loader
+
+### Objective
+Implement an ELF loader for a **32-bit, little-endian RISC-V** emulator.  
+The loader validates an ELF executable, loads its segments into memory, and sets the program counter to the entry point.
+
+---
+
+### Target Constraints
+- Architecture: RISC-V  
+- Bit Width: 32-bit  
+- Endianness: Little-endian  
+- File Type: Executable ELF only  
+- ELF Header Size: 52 bytes  
+
+---
+
+### ELF Header (EH)
+The ELF header is located at the start of the file and is used to verify compatibility and locate the program header table.
+
+#### Required Validation Checks
+- `e_ident` must equal `\x7fELF`
+- `e_type` must be `2` (executable)
+- `e_machine` must be `243` (RISC-V)
+- `e_bitsize` must be `1` (32-bit)
+
+#### Key Header Fields
+- `e_entry` – Program entry point  
+- `e_phoff` – Program header table offset  
+- `e_phnum` – Number of program headers  
+- `e_phentsize` – Size of each program header  
+
+---
+
+### Program Header Table (PH)
+- Located at `e_phoff`
+- Contains `e_phnum` entries
+- Each program header is 32 bytes
+
+---
+
+### Program Header Fields
+- `p_type` – Segment type (`PT_LOAD = 1`)
+- `p_offset` – File offset of segment data
+- `p_vaddr` – Virtual memory load address
+- `p_filesz` – Number of bytes to copy from file
+- `p_memsz` – Number of bytes allocated in memory
+
+---
+
+### Loading Rules
+- Only segments with `p_type == PT_LOAD` are loaded
+- Copy `p_filesz` bytes from file offset `p_offset` to memory address `p_vaddr`
+- If `p_memsz > p_filesz`, zero-fill the remaining bytes
+
+---
+
+### ELF Loading Sequence
+1. Read and validate the ELF header
+2. Seek to the program header table
+3. For each program header:
+   - Skip non-loadable segments
+   - Copy segment data into memory
+   - Zero-fill extra memory if required
+4. Set the program counter to the ELF entry point
+
+---
+
+
+
+### Testing
+
+- Dump the full 1 MiB emulator memory to a binary file
+- Compare the dump against a flat binary
+- All unused memory should be zeroed
+
+---
+
+### Key Notes
+- Section headers are ignored
+- Only program headers are used
+- Only executable, 32-bit RISC-V ELF files are supported
+
 ## Project Structure
 ```bash
 riscv_vm/
