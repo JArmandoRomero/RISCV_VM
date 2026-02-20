@@ -61,17 +61,21 @@ riscv_vm/
 │ ├── memory.hpp
 │ ├── registers.hpp
 │ ├── machine.hpp
+| ├── elf_loader.hpp
 │ └── utils.hpp
 │
 ├── src/
 │ ├── memory.cpp
 │ ├── registers.cpp
 │ ├── machine.cpp
-│ └── main.cpp
-│ └── test_machine.cpp
-│
+│ ├── main.cpp
+│ ├── test_machine.cpp
+│ ├── test_elf.cpp
+│ ├── elf_loader.cpp
+|
 ├── Makefile
-└── README.md
+├── README.md
+├── test_elf_output.txt
 └── test_machine_output.txt
 
 ```
@@ -92,12 +96,22 @@ make clean
 make
 ./riscv_vm
 ```
-### Testing Fro Grading
+### Testing Machine Fro Grading
+- remove test_elf.cpp from the make file
 ```bash
 make clean
 make
 ./riscv_vm > my_output.txt
 diff my_output.txt test_machine_output.txt
+```
+### Testing ELF Fro Grading
+- remove test_machine.cpp from the make file
+```bash
+make clean
+make
+./riscv_vm ./isaproject/tests/stdio.elf
+hexdump -C memdump.bin > memdump.txt
+diff memdump.txt test_elf_output.txt
 ```
 ### Example Out (Commented Out For Testing)
 ```bash
