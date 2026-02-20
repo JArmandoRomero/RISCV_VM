@@ -20,62 +20,62 @@ Machine::Machine()
 {
     reset();
 
-//     // -------- Fake boot delay --------
-//     std::cout << CLR_CYAN << "Booting RISC-V VM";
-//     for (int i = 0; i < 7; ++i) {
-//         std::cout << "." << std::flush;
-//         std::this_thread::sleep_for(std::chrono::milliseconds(300));
-//     }
-//     std::cout << CLR_RESET << "\n\n";
+    // -------- Fake boot delay --------
+    std::cout << CLR_CYAN << "Booting RISC-V VM";
+    for (int i = 0; i < 7; ++i) {
+        std::cout << "." << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    }
+    std::cout << CLR_RESET << "\n\n";
 
-//     // ================= Boot Banner =================
-//     std::cout << CLR_BOLD << CLR_GREEN;
-//     std::cout << "          ██████╗ ██╗███████╗ ██████╗              ██╗   ██╗          \n";
-//     std::cout << "          ██╔══██╗██║██╔════╝██╔════╝              ██║   ██║          \n";
-//     std::cout << "          ██████╔╝██║███████╗██║         █████╗    ██║   ██║          \n";
-//     std::cout << "          ██╔══██╗██║╚════██║██║         ╚════╝    ╚██╗ ██╔╝          \n";
-//     std::cout << "          ██║  ██║██║███████║╚██████╗               ╚████╔╝           \n";
-//     std::cout << "          ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝                ╚═══╝            \n";
-//     std::cout << "                                                                      \n";
-//     std::cout << "███████╗███╗   ███╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗ ██████╗ \n";
-//     std::cout << "██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗\n";
-//     std::cout << "█████╗  ██╔████╔██║██║   ██║██║     ███████║   ██║   ██║   ██║██████╔╝\n";
-//     std::cout << "██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║   ██║   ██║   ██║██╔══██╗\n";
-//     std::cout << "███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║\n";
-//     std::cout << "╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝\n";
-//     std::cout << "                            Jarrod Romero                             \n";
-//     std::cout << "                               COSC 530                               \n";
-//     std::cout << CLR_RESET << "\n";
+    // ================= Boot Banner =================
+    std::cout << CLR_BOLD << CLR_GREEN;
+    std::cout << "          ██████╗ ██╗███████╗ ██████╗              ██╗   ██╗          \n";
+    std::cout << "          ██╔══██╗██║██╔════╝██╔════╝              ██║   ██║          \n";
+    std::cout << "          ██████╔╝██║███████╗██║         █████╗    ██║   ██║          \n";
+    std::cout << "          ██╔══██╗██║╚════██║██║         ╚════╝    ╚██╗ ██╔╝          \n";
+    std::cout << "          ██║  ██║██║███████║╚██████╗               ╚████╔╝           \n";
+    std::cout << "          ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝                ╚═══╝            \n";
+    std::cout << "                                                                      \n";
+    std::cout << "███████╗███╗   ███╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗ ██████╗ \n";
+    std::cout << "██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗\n";
+    std::cout << "█████╗  ██╔████╔██║██║   ██║██║     ███████║   ██║   ██║   ██║██████╔╝\n";
+    std::cout << "██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║   ██║   ██║   ██║██╔══██╗\n";
+    std::cout << "███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║\n";
+    std::cout << "╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝\n";
+    std::cout << "                            Jarrod Romero                             \n";
+    std::cout << "                               COSC 530                               \n";
+    std::cout << CLR_RESET << "\n";
 
-//     std::cout << CLR_BOLD << CLR_GREEN
-//               << "RISC-V Machine initialized"
-//               << CLR_RESET << "\n";
+    std::cout << CLR_BOLD << CLR_GREEN
+              << "RISC-V Machine initialized"
+              << CLR_RESET << "\n";
 
-//     std::cout << CLR_CYAN
-//               << "Memory size: "
-//               << CLR_RESET
-//               << MEMORY_SIZE << " bytes (1 MiB)\n";
+    std::cout << CLR_CYAN
+              << "Memory size: "
+              << CLR_RESET
+              << MEMORY_SIZE << " bytes (1 MiB)\n";
 
-//     std::cout << CLR_CYAN
-//               << "Stack Pointer (x2): "
-//               << CLR_YELLOW << "0x"
-//               << std::hex << MEMORY_SIZE
-//               << std::dec << CLR_RESET << "\n";
+    std::cout << CLR_CYAN
+              << "Stack Pointer (x2): "
+              << CLR_YELLOW << "0x"
+              << std::hex << MEMORY_SIZE
+              << std::dec << CLR_RESET << "\n";
 
-//     std::cout << CLR_CYAN
-//               << "Program Counter initialized to: "
-//               << CLR_RESET
-//               << pc << "\n\n";
+    std::cout << CLR_CYAN
+              << "Program Counter initialized to: "
+              << CLR_RESET
+              << pc << "\n\n";
 
 
 
-//    // -------- Fake boot delay --------
-//     std::cout << CLR_CYAN << "Testing Machine RISC-V VM";
-//     for (int i = 0; i < 7; ++i) {
-//         std::cout << "." << std::flush;
-//         std::this_thread::sleep_for(std::chrono::milliseconds(300));
-//     }
-//     std::cout << CLR_RESET << "\n\n";
+   // -------- Fake boot delay --------
+    std::cout << CLR_CYAN << "Testing Machine RISC-V VM";
+    for (int i = 0; i < 7; ++i) {
+        std::cout << "." << std::flush;
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    }
+    std::cout << CLR_RESET << "\n\n";
 
 
 
