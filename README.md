@@ -96,7 +96,7 @@ make clean
 make
 ./riscv_vm
 ```
-### Testing Machine Fro Grading
+### Testing Machine For Grading
 - remove test_elf.cpp from the make file
 ```bash
 make clean
@@ -104,7 +104,7 @@ make
 ./riscv_vm > my_output.txt
 diff my_output.txt test_machine_output.txt
 ```
-### Testing ELF Fro Grading
+### Testing ELF For Grading
 - remove test_machine.cpp from the make file
 ```bash
 make clean
