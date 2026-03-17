@@ -6,8 +6,12 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude
 SRC = src/memory.cpp \
       src/register.cpp \
       src/machine.cpp \
+	  src/fetch.cpp \
+	  src/test_fetch.cpp \
 	  src/elf_loader.cpp \
-	  src/test_elf.cpp \
+	
+	
+	 
 
 
 OBJ = $(SRC:.cpp=.o)

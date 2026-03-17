@@ -4,6 +4,6 @@
 #include <string>
 #include "machine.hpp"
 
-bool loadELF(const std::string& filename, Machine& machine);
+bool load_elf(const std::string& filename, Machine& machine);
 
 #endif

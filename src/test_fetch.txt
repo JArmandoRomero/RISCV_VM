@@ -1,0 +1,12 @@
+ELF file loaded successfully.
+Fetched instruction: 0xfe117
+Decoded Instruction:
+  inst   = 00000000000011111110000100010111
+  rd     = 0
+  memop  = 0000
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 0
+  result = 0
+

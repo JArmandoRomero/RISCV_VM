@@ -40,7 +40,7 @@ struct Program_Header {
     uint32_t p_align;
 };
 
-bool loadELF(const std::string& filename, Machine& machine)
+bool load_elf(const std::string& filename, Machine& machine)
 {
     // 1️⃣ Open file
     std::ifstream file(filename, std::ios::binary);
