@@ -7,8 +7,9 @@ SRC = src/memory.cpp \
       src/register.cpp \
       src/machine.cpp \
 	  src/fetch.cpp \
-	  src/test_fetch.cpp \
+	  src/decode.cpp \
 	  src/elf_loader.cpp \
+	  src/test_decode.cpp \
 	
 	
 	 
