@@ -13,6 +13,7 @@ Instruction decode(Instruction instr, Machine* machine)
     uint32_t rs2    = (inst >> 20) & 0x1F;
     uint32_t funct7 = (inst >> 25) & 0x7F;
 
+    // Reset fields
     instr.rd = rd;
     instr.memop = 0;
     instr.aluop = Nop;
@@ -103,6 +104,7 @@ Instruction decode(Instruction instr, Machine* machine)
             instr.right = imm;
             instr.memop = 0b001;
             instr.aluop = Add;
+
             break;
         }
 
@@ -117,9 +119,16 @@ Instruction decode(Instruction instr, Machine* machine)
 
             instr.left  = machine->readRegister(rs1);
             instr.right = simm;
-            instr.disp  = machine->readRegister(rs2);
-            instr.memop = 0b111; // ⚠️ IMPORTANT FIX (matches expected output)
+
+            // IMPORTANT: signed value
+            instr.disp  = (int32_t)machine->readRegister(rs2);
+
+            instr.memop = 0b111; // matches expected output
             instr.aluop = Add;
+
+            // S-type has no rd
+            instr.rd = 0;
+
             break;
         }
 
@@ -138,6 +147,10 @@ Instruction decode(Instruction instr, Machine* machine)
             instr.right = machine->readRegister(rs2);
             instr.disp  = simm;
             instr.aluop = Cmp;
+
+            // B-type has no rd
+            instr.rd = 0;
+
             break;
         }
 
@@ -145,6 +158,15 @@ Instruction decode(Instruction instr, Machine* machine)
         case 0x37:
         {
             instr.left  = 0;
+            instr.right = inst & 0xFFFFF000;
+            instr.aluop = Add;
+            break;
+        }
+
+        // ================= AUIPC =================
+        case 0x17:
+        {
+            instr.left  = machine->getPC();
             instr.right = inst & 0xFFFFF000;
             instr.aluop = Add;
             break;
@@ -160,7 +182,25 @@ Instruction decode(Instruction instr, Machine* machine)
                 (((inst >> 12) & 0xFF) << 12);
 
             instr.disp = sign_extend(imm, 20);
-            instr.aluop = Nop; // IMPORTANT
+            instr.aluop = Nop;
+            break;
+        }
+
+        // ================= JALR =================
+        case 0x67:
+        {
+            int32_t imm = sign_extend(inst >> 20, 11);
+
+            instr.left  = machine->readRegister(rs1);
+            instr.right = imm;
+            instr.aluop = Add;
+            break;
+        }
+
+        // ================= SYSTEM =================
+        case 0x73:
+        {
+            instr.aluop = Nop;
             break;
         }
 

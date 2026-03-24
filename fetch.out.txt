@@ -1,3 +1,5 @@
+
+Testing decode on blank Machine
 [36mBooting RISC-V VM.......[0m
 
 [1m[32m          ██████╗ ██╗███████╗ ██████╗              ██╗   ██╗          
@@ -23,15 +25,135 @@
 
 [36mRunning Fetch RISC-V VM.......[0m
 
-ELF file loaded successfully.
-Fetched instruction: 0xfe117
+TEST 1: ADD x1, x2, x3
+  Setup: x2 = 10, x3 = 20
+Expected Decoded Instruction:
+  inst   = 00000000001100010000000010110011
+  rd     = 1
+  memop  = 0000
+  aluop  = 1
+  left   = 10
+  right  = 20
+  disp   = 0
+  result = 0
+
 Decoded Instruction:
-  inst   = 00000000000011111110000100010111
+  inst   = 00000000001100010000000010110011
+  rd     = 1
+  memop  = 0000
+  aluop  = 1
+  left   = 10
+  right  = 20
+  disp   = 0
+  result = 0
+
+TEST 2: ADDI x5, x6, -1
+  Setup: x6 = 100
+Expected Decoded Instruction:
+  inst   = 11111111111100110000001010010011
+  rd     = 5
+  memop  = 0000
+  aluop  = 1
+  left   = 100
+  right  = -1
+  disp   = 0
+  result = 0
+
+Decoded Instruction:
+  inst   = 11111111111100110000001010010011
+  rd     = 5
+  memop  = 0000
+  aluop  = 1
+  left   = 100
+  right  = -1
+  disp   = 0
+  result = 0
+
+TEST 3: SW x10, 8(x11)
+  Setup: x10 = 0xDEADBEEF, x11 = 0x1000
+Expected Decoded Instruction:
+  inst   = 00000000101001011010010000100011
   rd     = 0
+  memop  = 0111
+  aluop  = 1
+  left   = 4096
+  right  = 8
+  disp   = -559038737
+  result = 0
+
+Decoded Instruction:
+  inst   = 00000000101001011010010000100011
+  rd     = 0
+  memop  = 0111
+  aluop  = 1
+  left   = 4096
+  right  = 8
+  disp   = -559038737
+  result = 0
+
+TEST 4: BEQ x1, x2, 16
+  Setup: x1 = 42, x2 = 42
+Expected Decoded Instruction:
+  inst   = 00000000001000001000100001100011
+  rd     = 0
+  memop  = 0000
+  aluop  = 16
+  left   = 42
+  right  = 42
+  disp   = 16
+  result = 0
+
+Decoded Instruction:
+  inst   = 00000000001000001000100001100011
+  rd     = 0
+  memop  = 0000
+  aluop  = 16
+  left   = 42
+  right  = 42
+  disp   = 16
+  result = 0
+
+TEST 5: LUI x4, 0x12345
+  Setup: (no register setup needed)
+Expected Decoded Instruction:
+  inst   = 00010010001101000101001000110111
+  rd     = 4
+  memop  = 0000
+  aluop  = 1
+  left   = 0
+  right  = 305418240
+  disp   = 0
+  result = 0
+
+Decoded Instruction:
+  inst   = 00010010001101000101001000110111
+  rd     = 4
+  memop  = 0000
+  aluop  = 1
+  left   = 0
+  right  = 305418240
+  disp   = 0
+  result = 0
+
+TEST 6: JAL x1, 2048
+  Setup: (no register setup needed)
+Expected Decoded Instruction:
+  inst   = 00000000000100000000000011101111
+  rd     = 1
   memop  = 0000
   aluop  = 0
   left   = 0
   right  = 0
-  disp   = 0
+  disp   = 2048
+  result = 0
+
+Decoded Instruction:
+  inst   = 00000000000100000000000011101111
+  rd     = 1
+  memop  = 0000
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 2048
   result = 0
 

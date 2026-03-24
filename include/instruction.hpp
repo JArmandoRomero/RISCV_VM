@@ -5,13 +5,13 @@
 
 struct Instruction {
 
-    uint32_t inst = 0;
+    int32_t inst = 0;
 
-    uint32_t left = 0;
-    uint32_t right = 0;
-    uint32_t result = 0;
+    int32_t left = 0;
+    int32_t right = 0;
+    int32_t result = 0;
 
-    uint32_t disp = 0;
+    int32_t disp = 0;
 
     uint8_t rd = 0;
     uint8_t memop = 0;
