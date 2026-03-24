@@ -136,7 +136,7 @@ The ELF header is located at the start of the file and is used to verify compati
 - Section headers are ignored
 - Only program headers are used
 - Only executable, 32-bit RISC-V ELF files are supported
-
+---
 ## Project Structure
 ```bash
 riscv_vm/

@@ -70,7 +70,7 @@ Machine::Machine()
 
 
    // -------- Fake boot delay --------
-    std::cout << CLR_CYAN << "Testing Machine RISC-V VM";
+    std::cout << CLR_CYAN << "Running Fetch RISC-V VM";
     for (int i = 0; i < 7; ++i) {
         std::cout << "." << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
