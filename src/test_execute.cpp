@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "execute.h"
-#include "alu_op.h"
-#include "instruction.h"
+#include "execute.hpp"
+#include "alu.hpp"
+#include "instruction.hpp"
 #include <bitset>
 
 

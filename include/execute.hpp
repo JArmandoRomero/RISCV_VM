@@ -3,6 +3,7 @@
 
 #include "instruction.hpp"
 
-Instruction execute(Instruction instr);
+
+void execute(Instruction& instruction);
 
 #endif

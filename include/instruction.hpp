@@ -2,6 +2,7 @@
 #define INSTRUCTION_HPP
 
 #include <cstdint>
+#include "alu.hpp"   // ✅ REQUIRED
 
 struct Instruction {
 
@@ -15,7 +16,7 @@ struct Instruction {
 
     uint8_t rd = 0;
     uint8_t memop = 0;
-    uint8_t aluop = 0;
+    AluOp aluop = AluOp::Nop;   // ✅ FIXED
 };
 
 #endif

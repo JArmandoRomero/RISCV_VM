@@ -1,97 +1,100 @@
 #include "execute.hpp"
 #include "alu.hpp"
+#include <cstdint>
 
-Instruction execute(Instruction instr)
-{
-    switch (instr.aluop)
-    {
-        case Nop:
+void execute(Instruction& instruction) {
+    switch (instruction.aluop) {
+
+        case AluOp::Nop:
+            instruction.result = 0;
             break;
 
-        case Add:
-            instr.result = instr.left + instr.right;
+        case AluOp::Add:
+            instruction.result = instruction.left + instruction.right;
             break;
 
-        case Sub:
-            instr.result = instr.left - instr.right;
+        case AluOp::Sub:
+            instruction.result = instruction.left - instruction.right;
             break;
 
-        case Mul:
-            instr.result = instr.left * instr.right;
+        case AluOp::Mul:
+            instruction.result = instruction.left * instruction.right;
             break;
 
-        case Div:
-            if (instr.right != 0)
-                instr.result = instr.left / instr.right;
+        case AluOp::Div:
+            if (instruction.right == 0)
+                instruction.result = -1;
+            else
+                instruction.result = instruction.left / instruction.right;
             break;
 
-        case DivU:
-            if (instr.right != 0)
-                instr.result = (uint32_t)instr.left / (uint32_t)instr.right;
+        case AluOp::DivU:
+            if (instruction.right == 0)
+                instruction.result = -1;
+            else
+                instruction.result =
+                    static_cast<uint32_t>(instruction.left) /
+                    static_cast<uint32_t>(instruction.right);
             break;
 
-        case Rem:
-            if (instr.right != 0)
-                instr.result = instr.left % instr.right;
+        case AluOp::Rem:
+            if (instruction.right == 0)
+                instruction.result = instruction.left;
+            else
+                instruction.result = instruction.left % instruction.right;
             break;
 
-        case RemU:
-            if (instr.right != 0)
-                instr.result = (uint32_t)instr.left % (uint32_t)instr.right;
+        case AluOp::RemU:
+            if (instruction.right == 0)
+                instruction.result = instruction.left;
+            else
+                instruction.result =
+                    static_cast<uint32_t>(instruction.left) %
+                    static_cast<uint32_t>(instruction.right);
             break;
 
-        case LeftShift:
-            instr.result = instr.left << (instr.right & 0x1F);
+        case AluOp::LeftShift:
+            instruction.result = instruction.left << instruction.right;
             break;
 
-        case RightShiftA:
-            instr.result = instr.left >> (instr.right & 0x1F);
+        case AluOp::RightShiftA:
+            instruction.result = instruction.left >> instruction.right;
             break;
 
-        case RightShiftL:
-            instr.result = (uint32_t)instr.left >> (instr.right & 0x1F);
+        case AluOp::RightShiftL:
+            instruction.result =
+                static_cast<uint32_t>(instruction.left) >> instruction.right;
             break;
 
-        case Or:
-            instr.result = instr.left | instr.right;
+        case AluOp::Or:
+            instruction.result = instruction.left | instruction.right;
             break;
 
-        case Xor:
-            instr.result = instr.left ^ instr.right;
+        case AluOp::Xor:
+            instruction.result = instruction.left ^ instruction.right;
             break;
 
-        case And:
-            instr.result = instr.left & instr.right;
+        case AluOp::And:
+            instruction.result = instruction.left & instruction.right;
             break;
 
-        case Slt:
-            instr.result = (instr.left < instr.right);
+        case AluOp::Slt:
+            instruction.result = (instruction.left < instruction.right) ? 1 : 0;
             break;
 
-        case SltU:
-            instr.result = ((uint32_t)instr.left < (uint32_t)instr.right);
+        case AluOp::SltU:
+            instruction.result =
+                (static_cast<uint32_t>(instruction.left) <
+                 static_cast<uint32_t>(instruction.right)) ? 1 : 0;
             break;
 
-        case Cmp:
-        {
-            uint32_t res = 0;
-
-            // bit 0: equal
-            if (instr.left == instr.right)
-                res |= (1 << 0);
-
-            // bit 1: signed less than
-            if (instr.left < instr.right)
-                res |= (1 << 1);
-
-            // bit 2: unsigned less than
-            if ((uint32_t)instr.left < (uint32_t)instr.right)
-                res |= (1 << 2);
-
-            instr.result = res;
+        case AluOp::Cmp:
+            if (instruction.left == instruction.right)
+                instruction.result = 0b001;  // equal
+            else if (instruction.left < instruction.right)
+                instruction.result = 0b010;  // less than (signed)
+            else
+                instruction.result = 0b100;  // greater than (signed)
             break;
-        }
     }
-
-    return instr;
 }

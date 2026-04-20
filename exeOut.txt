@@ -1,0 +1,278 @@
+
+Testing Execute
+===============
+
+Test No Op:
+	Left: 42
+	Right: 8
+	AluOp: Nop
+	Result: 0
+	Result Should Be: 0 
+Test Add:
+	Left: 42
+	Right: 8
+	AluOp: Add
+	Result: 50
+	Result Should Be: 50 
+Test Subtract:
+	Larger Left:
+		Left: 42
+		Right: 8
+		AluOp: Sub
+		Result: 34
+		Result Should Be: 34
+	Larger Right:
+		Left: 8
+		Right: 42
+		AluOp: Sub
+		Result: -34
+		Result Should Be: -34
+Test Multiply:
+	Left: 5
+	Right: 4
+	AluOp: Mul
+	Result: 20
+	Result Should Be: 20
+Test Divide:
+	Positive left and right resulting in whole number:
+		Left: 10
+		Right: 2
+		AluOp: Div
+		Result: 5
+		Result Should Be: 5
+	Positive left and right resulting in fraction:
+		Left: 5
+		Right: 2
+		AluOp: Div
+		Result: 2
+		Result Should Be: 2
+	Zero left:
+		Left: 0
+		Right: 2
+		AluOp: Div
+		Result: 0
+		Result Should Be: 0
+	Zero right:
+		Left: 5
+		Right: 0
+		AluOp: Div
+		Result: -1
+		Result Should Be: -1
+	Negative left, positive right:
+		Left: -10
+		Right: 2
+		AluOp: Div
+		Result: -5
+		Result Should Be: -5
+Test Divide Unsigned:
+	Positive left and right resulting in whole number:
+		Left: 10
+		Right: 2
+		AluOp: DivU
+		Result: 5
+		Result Should Be: 5
+	Positive left and right resulting in fraction:
+		Left: 5
+		Right: 2
+		AluOp: DivU
+		Result: 2
+		Result Should Be: 2
+	Zero left:
+		Left: 0
+		Right: 2
+		AluOp: DivU
+		Result: 0
+		Result Should Be: 0
+	Zero right:
+		Left: 5
+		Right: 0
+		AluOp: DivU
+		Result: -1
+		Result Should Be: -1
+	Negative left, positive right:
+		Left: -10
+		Right: 2
+		AluOp: DivU
+		Result: 2147483643
+		Result Should Be: 2147483643
+Test Remainder:
+	Positive left and right resulting in whole number:
+		Left: 10
+		Right: 2
+		AluOp: Rem
+		Result: 0
+		Result Should Be: 0
+	Positive left and right resulting in fraction:
+		Left: 5
+		Right: 2
+		AluOp: Rem
+		Result: 1
+		Result Should Be: 1
+	Zero left:
+		Left: 0
+		Right: 2
+		AluOp: Rem
+		Result: 0
+		Result Should Be: 0
+	Zero right:
+		Left: 5
+		Right: 0
+		AluOp: Rem
+		Result: 5
+		Result Should Be: 5
+	Negative left, positive right:
+		Left: -10
+		Right: 4
+		AluOp: Rem
+		Result: -2
+		Result Should Be: -2
+Test Remainder Unsigned:
+	Positive left and right resulting in whole number:
+		Left: 10
+		Right: 2
+		AluOp: RemU
+		Result: 0
+		Result Should Be: 0
+	Positive left and right resulting in fraction:
+		Left: 5
+		Right: 2
+		AluOp: RemU
+		Result: 1
+		Result Should Be: 1
+	Zero left:
+		Left: 0
+		Right: 2
+		AluOp: RemU
+		Result: 0
+		Result Should Be: 0
+	Zero right:
+		Left: 5
+		Right: 0
+		AluOp: RemU
+		Result: 5
+		Result Should Be: 5
+	Negative left, positive right:
+		Left: -10
+		Right: 4
+		AluOp: RemU
+		Result: 2
+		Result Should Be: 2
+Test Left Shift Logical:
+	Left: 00000000000000000000000000001111
+	Right: 2
+	AluOp: LeftShift
+	Result:           00000000000000000000000000111100
+	Result Should Be: 00000000000000000000000000111100
+Test Right Shift Arithmetic:
+	Positive leading bit:
+		Left: 00000000000000000000000000001111
+		Right: 2
+		AluOp: RightShiftA
+		Result:           00000000000000000000000000000011
+		Result Should Be: 00000000000000000000000000000011
+	Negative leading bit:
+		Left: 11111111111111111111111111110001
+		Right: 2
+		AluOp: RightShiftA
+		Result:           11111111111111111111111111111100
+		Result Should Be: 11111111111111111111111111111100
+Test Right Shift Logical:
+	Positive leading bit:
+		Left: 00000000000000000000000000001111
+		Right: 2
+		AluOp: RightShiftL
+		Result:           00000000000000000000000000000011
+		Result Should Be: 00000000000000000000000000000011
+	Negative leading bit:
+		Left: 11111111111111111111111111110001
+		Right: 2
+		AluOp: RightShiftL
+		Result:           00111111111111111111111111111100
+		Result Should Be: 00111111111111111111111111111100
+Test OR:
+	Left:	00000000000000000000000000111100
+	Right:	00000000000000000000000000001111
+	AluOp: Or
+	Result:           00000000000000000000000000111111
+	Result Should Be: 00000000000000000000000000111111
+Test XOR:
+	Left:	00000000000000000000000000111100
+	Right:	00000000000000000000000000001111
+	AluOp: Xor
+	Result:           00000000000000000000000000110011
+	Result Should Be: 00000000000000000000000000110011
+Test AND:
+	Left:	00000000000000000000000000111100
+	Right:	00000000000000000000000000001111
+	AluOp: And
+	Result:           00000000000000000000000000001100
+	Result Should Be: 00000000000000000000000000001100
+Test Set Less Than:
+	Left Less Than Right:
+		Left: 15
+		Right: 42
+		AluOp: Slt
+		Result: 1
+		Result Should Be: 1
+	Left Greater Than Right:
+		Left: 42
+		Right: 15
+		AluOp: Slt
+		Result: 0
+		Result Should Be: 0
+	Left Equal to Right:
+		Left: 42
+		Right: 42
+		AluOp: Slt
+		Result: 0
+		Result Should Be: 0
+	Left Negative:
+		Left: -42
+		Right: 42
+		AluOp: Slt
+		Result: 1
+		Result Should Be: 1
+Test Set Less Than Unsigned:
+	Left Less Than Right:
+		Left: 15
+		Right: 42
+		AluOp: SltU
+		Result: 1
+		Result Should Be: 1
+	Left Greater Than Right:
+		Left: 42
+		Right: 15
+		AluOp: SltU
+		Result: 0
+		Result Should Be: 0
+	Left Equal to Right:
+		Left: 42
+		Right: 42
+		AluOp: SltU
+		Result: 0
+		Result Should Be: 0
+	Left Negative:
+		Left: -42
+		Right: 42
+		AluOp: SltU
+		Result: 0
+		Result Should Be: 0
+Test Compare:
+	Test Equals:
+		Left: 15
+		Right: 15
+		AluOp: Cmp
+		Result:           001
+		Result Should Be: 001
+	Test Less Than Signed and Greater Than Unsigned:
+		Left: -15
+		Right: 15
+		AluOp: Cmp
+		Result:           010
+		Result Should Be: 010
+	Test Grreater Than Signed and Less Than Unsigned:
+		Left: 15
+		Right: -15
+		AluOp: Cmp
+		Result:           100
+		Result Should Be: 100
