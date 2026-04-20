@@ -9,7 +9,8 @@ SRC = src/memory.cpp \
 	  src/fetch.cpp \
 	  src/decode.cpp \
 	  src/elf_loader.cpp \
-	  src/test_decode.cpp \
+	  src/execute.cpp \
+	  src/test_execute.cpp \
 	
 	
 	 
