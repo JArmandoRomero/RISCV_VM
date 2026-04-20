@@ -13,7 +13,7 @@ struct Instruction {
     int32_t result = 0;
 
     int32_t disp = 0;
-
+    int32_t strval = 0; 
     uint8_t rd = 0;
     uint8_t memop = 0;
     AluOp aluop = AluOp::Nop;   // ✅ FIXED

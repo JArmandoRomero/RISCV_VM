@@ -1,0 +1,372 @@
+ELF file loaded successfully.
+
+TESTING MEMORY OPERATIONS
+
+Test No Op
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0x93
+mem[0x65]: 0x87
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 000
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000000000000 (0x0)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0x93
+mem[0x65]: 0x87
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 000
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000000000000 (0x0)
+  result = 00000000000000000000000001100100 (0x64)
+
+
+Test Store Byte
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0x93
+mem[0x65]: 0x87
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 101
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000010101011 (0xab)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xab
+mem[0x65]: 0x87
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 101
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000010101011 (0xab)
+  result = 00000000000000000000000001100100 (0x64)
+
+
+Test Store Halfword
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xab
+mem[0x65]: 0x87
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 110
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011001101 (0xcd)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xcd
+mem[0x65]: 0x0
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 110
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011001101 (0xcd)
+  result = 00000000000000000000000001100100 (0x64)
+
+
+Test Store Word
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xcd
+mem[0x65]: 0x0
+mem[0x66]: 0x7
+mem[0x67]: 0xff
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 111
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 111
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+
+Test Load Byte (Signed)
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 001
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 001
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 11111111111111111111111111101111 (0xffffffef)
+
+
+Test Load Byte (Unsigned)
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000100000000000000
+  rd     = 0
+  memop  = 001
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0x0
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000100000000000000
+  rd     = 0
+  memop  = 001
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000011101111 (0xef)
+
+
+Test Load Halfword (Signed)
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 010
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 010
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 11111111111111111110111111101111 (0xffffefef)
+
+
+Test Load Halfword (Unsigned)
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000100000000000000
+  rd     = 0
+  memop  = 010
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0x0
+mem[0x67]: 0x0
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000100000000000000
+  rd     = 0
+  memop  = 010
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000001110111111101111 (0xefef)
+
+
+Test Load Word
+==========
+Before Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0xcd
+mem[0x67]: 0xab
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 011
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 00000000000000000000000001100100 (0x64)
+
+After Op
+MEMORY
+------
+mem[0x63]: 0xfe
+mem[0x64]: 0xef
+mem[0x65]: 0xef
+mem[0x66]: 0xcd
+mem[0x67]: 0xab
+mem[0x68]: 0xb3
+Instruction:
+  inst   = 00000000000000000000000000000000
+  rd     = 0
+  memop  = 011
+  aluop  = 0
+  left   = 0
+  right  = 0
+  disp   = 00000000000000000000000011101111 (0xef)
+  result = 10101011110011011110111111101111 (0xabcdefef)
+
