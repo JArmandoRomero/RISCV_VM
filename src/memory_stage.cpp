@@ -8,67 +8,68 @@ enum MemOp {
     LBU, LHU,
     SB, SH, SW
 };
-
 void execute_memory(Instruction& instr, Machine& machine) {
+    Memory& mem = machine.getMemory();
     uint32_t addr = instr.result;
 
     switch (instr.memop) {
 
-        // =====================
-        // STORE
-        // =====================
-
-        case SB:
-            machine.writeByte(addr, instr.strval & 0xFF);
+        // NO OP
+        case 0b000:
             break;
 
-        case SH:
-            machine.writeByte(addr, instr.strval & 0xFF);
-            machine.writeByte(addr + 1, (instr.strval >> 8) & 0xFF);
-            break;
+        // LOAD BYTE
+        case 0b001: {
+            uint8_t val = mem.read8(addr);
 
-        case SW:
-            machine.writeWord(addr, instr.strval);
-            break;
+            bool is_unsigned = (instr.inst >> 14) & 1;
 
-        // =====================
-        // LOAD
-        // =====================
-
-        case LB: {
-            int8_t val = machine.readByte(addr);
-            instr.result = val;  // sign-extended
+            if (is_unsigned) {
+                instr.result = val;
+            } else {
+                instr.result = static_cast<int8_t>(val); // sign extend
+            }
             break;
         }
 
-        case LH: {
-            int16_t val =
-                machine.readByte(addr) |
-                (machine.readByte(addr + 1) << 8);
-            instr.result = val;
+        // LOAD HALFWORD
+        case 0b010: {
+            uint16_t val = mem.read8(addr) |
+                          (mem.read8(addr + 1) << 8);
+
+            bool is_unsigned = (instr.inst >> 14) & 1;
+
+            if (is_unsigned) {
+                instr.result = val;
+            } else {
+                instr.result = static_cast<int16_t>(val); // sign extend
+            }
             break;
         }
 
-        case LW:
-            instr.result = machine.readWord(addr);
-            break;
-
-        case LBU: {
-            uint8_t val = machine.readByte(addr);
-            instr.result = val;  // zero-extended
+        // LOAD WORD
+        case 0b011: {
+            instr.result = mem.readWord(addr);
             break;
         }
 
-        case LHU: {
-            uint16_t val =
-                machine.readByte(addr) |
-                (machine.readByte(addr + 1) << 8);
-            instr.result = val;
+        // STORE BYTE
+        case 0b101: {
+            mem.write8(addr, static_cast<uint8_t>(instr.disp));
             break;
         }
 
-        default:
-            // No memory operation
+        // STORE HALFWORD
+        case 0b110: {
+            mem.write8(addr,     instr.disp & 0xFF);
+            mem.write8(addr + 1, (instr.disp >> 8) & 0xFF);
             break;
+        }
+
+        // STORE WORD
+        case 0b111: {
+            mem.writeWord(addr, instr.disp);
+            break;
+        }
     }
 }
