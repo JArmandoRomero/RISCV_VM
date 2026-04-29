@@ -11,7 +11,7 @@
 
 
 
-// Helper to print the decoded instruction structure
+
 void print_instruction(const Instruction& instr) {
     std::cout << "Decoded Instruction:\n";
     std::cout << "  inst   = " << std::bitset<32>(instr.inst) << "\n";
@@ -48,11 +48,9 @@ void test_decode() {
     std::cout << "  result = 0\n";
     std::cout << std::endl;
 
-    // R-type: add x1, x2, x3
+
     uint32_t instr = 0b00000000001100010000000010110011;
-    //             | funct7 | rs2  | rs1  |funct3| rd   | opcode|
-    //             |0000000 |00011 |00010 | 000  |00001 |0110011|
-    // Values:     |  0x00  | 0x03 | 0x02 | 0x0  | 0x01 |  0x33 |
+
 
     instruction.inst = instr;
     Instruction decoded = decode(instruction, &machine);

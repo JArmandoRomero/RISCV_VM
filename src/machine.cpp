@@ -16,7 +16,9 @@
 Machine::Machine()
     : pc(0),
       registers(),
-      memory(MEMORY_SIZE)
+      memory(MEMORY_SIZE),
+      is_running(true),
+      exit_code(0)
 {
     reset();
 
@@ -84,7 +86,6 @@ Machine::Machine()
 
 
 // ---------------- Reset ----------------
-
 void Machine::reset()
 {
     pc = 0;
@@ -93,8 +94,10 @@ void Machine::reset()
 
     // Set stack pointer (x2)
     registers.write(2, MEMORY_SIZE);
-}
 
+    is_running = true;  
+    exit_code = 0;       
+}
 // ---------------- Memory Access ----------------
 
 uint32_t Machine::readWord(uint32_t address) const

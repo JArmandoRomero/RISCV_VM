@@ -13,7 +13,7 @@
 #define EMACHINE_RISCV 243
 #define PT_LOAD 1
 
-// 32-bit ELF Header (only required fields included)
+// 32-bit ELF Header
 struct ELF_Header {
     unsigned char e_ident[16];
     uint16_t e_type;

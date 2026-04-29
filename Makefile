@@ -11,7 +11,8 @@ SRC = src/memory.cpp \
 	  src/elf_loader.cpp \
 	  src/execute.cpp \
 	  src/memory_stage.cpp \
-	  src/test_memory_stage.cpp \
+	  src/writeback.cpp \
+	  src/test_writeback.cpp \
 
 	
 	

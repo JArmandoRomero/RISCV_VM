@@ -1,7 +1,6 @@
 #include "memory_stage.hpp"
 #include <cstdint>
 
-// You can define this if not already defined elsewhere
 enum MemOp {
     None,
     LB, LH, LW,

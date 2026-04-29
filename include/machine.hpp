@@ -16,6 +16,8 @@ private:
 public:
     static constexpr uint32_t MEMORY_SIZE = 1 << 20; // 1 MiB
 
+    bool is_running = true;
+    int exit_code = 0;
     // Constructor
     Machine();
 
