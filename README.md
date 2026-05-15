@@ -5,210 +5,470 @@ Author: Jarrod Romero
 
 ---
 
-## Overview
+# Overview
 
-This project implements a **virtual machine (VM)** that emulates the **RISC-V RV32IM instruction set architecture**.  
-The VM models the core components of a simple computer, including memory, registers, and control state, and is being developed incrementally as part of a multi-stage course project.
+This project implements a full **RISC-V RV32IM Virtual Machine (VM)** in modern C++. The emulator models the core hardware and execution pipeline of a simplified 32-bit RISC-V processor, including:
 
-This repository currently contains the implementation for **Part I: Machine Setup**.
+- Memory
+- Registers
+- Program Counter
+- ELF Loading
+- Instruction Fetching
+- Instruction Decoding
+- ALU Execution
+- Memory Access
+- Writeback Stage
+- System Calls
+
+The VM is developed incrementally as part of a multi-stage computer architecture project for COSC 530.
 
 ---
 
-## Implemented Features (Part I)
+# Supported ISA
 
-### ✔ Machine Architecture
-- RV32IM (32-bit RISC-V with integer and multiplication/division extensions)
+The emulator supports the **RV32IM** instruction set:
+
+- **RV32I** → Base integer instruction set
+- **M Extension** → Integer multiplication/division instructions
+
+Supported instruction categories include:
+
+- R-Type
+- I-Type
+- S-Type
+- B-Type
+- U-Type
+- J-Type
+
+---
+
+# Implemented Features
+
+## Machine Architecture
+
+- 32-bit RISC-V CPU
 - 32 general-purpose registers (`x0`–`x31`)
-- Program Counter (`PC`)
-- Stack Pointer initialized according to RISC-V ABI
-- Byte-addressable main memory
-
-### ✔ Memory
-- 1 MiB (2²⁰ bytes) of RAM
-- Memory is intentionally left uninitialized
-- Memory addresses map directly to byte indices
-
-### ✔ Registers
-- 32 × 32-bit integer registers
-- `x0` is hard-wired to zero (reads return 0, writes are ignored)
-- Register access via a clean read/write API
-
-### ✔ Program Counter
-- Separate from the register file
-- Initialized to 0 (to be updated during ELF loading in Part II)
-
-### ✔ Stack Pointer
-- Register `x2` initialized to the top of memory
-- Stack grows downward, following RISC-V conventions
-
-### ✔ Sign Extension Utility
-- Generic sign-extension helper function
-- Works for immediates of varying bit widths
-- Implemented **without loops or conditionals**, as required
-
-### ✔ Boot Banner & Debug Output
-- Optional ASCII boot banner
-- Fake boot delay for visual clarity
-- Colorized debug output using ANSI escape codes
-- No impact on VM functionality
+- Separate Program Counter (`PC`)
+- 1 MiB byte-addressable RAM
+- Stack pointer initialized according to RISC-V ABI
+- Little-endian memory layout
 
 ---
 
-## Part II: ELF Loader
+## Register File
 
-### Objective
-Implement an ELF loader for a **32-bit, little-endian RISC-V** emulator.  
-The loader validates an ELF executable, loads its segments into memory, and sets the program counter to the entry point.
+The emulator implements a complete RISC-V register file.
 
----
+### Features
 
-### Target Constraints
-- Architecture: RISC-V  
-- Bit Width: 32-bit  
-- Endianness: Little-endian  
-- File Type: Executable ELF only  
-- ELF Header Size: 52 bytes  
+- 32 × 32-bit registers
+- `x0` is hardwired to zero
+- Writes to `x0` are ignored
+- Supports:
+  - `read()`
+  - `write()`
+  - `reset()`
+  - `print()`
 
----
+### ABI Support
 
-### ELF Header (EH)
-The ELF header is located at the start of the file and is used to verify compatibility and locate the program header table.
-
-#### Required Validation Checks
-- `e_ident` must equal `\x7fELF`
-- `e_type` must be `2` (executable)
-- `e_machine` must be `243` (RISC-V)
-- `e_bitsize` must be `1` (32-bit)
-
-#### Key Header Fields
-- `e_entry` – Program entry point  
-- `e_phoff` – Program header table offset  
-- `e_phnum` – Number of program headers  
-- `e_phentsize` – Size of each program header  
+| Register | ABI Name | Purpose |
+|---|---|---|
+| x0 | zero | Constant 0 |
+| x1 | ra | Return address |
+| x2 | sp | Stack pointer |
+| x10-x17 | a0-a7 | Function/System call args |
 
 ---
 
-### Program Header Table (PH)
-- Located at `e_phoff`
-- Contains `e_phnum` entries
-- Each program header is 32 bytes
+# Memory System
+
+## Features
+
+- 1 MiB RAM
+- Byte-addressable
+- Little-endian word storage
+- Bounds-checked access
+
+## Supported Operations
+
+- `read8()`
+- `write8()`
+- `readWord()`
+- `writeWord()`
+- `print()`
+- `getRawMemory()`
 
 ---
 
-### Program Header Fields
-- `p_type` – Segment type (`PT_LOAD = 1`)
-- `p_offset` – File offset of segment data
-- `p_vaddr` – Virtual memory load address
-- `p_filesz` – Number of bytes to copy from file
-- `p_memsz` – Number of bytes allocated in memory
+# Machine Class
+
+The `Machine` class represents the entire virtual CPU state.
+
+## Responsibilities
+
+- Owns memory
+- Owns register file
+- Maintains program counter
+- Provides read/write helpers
+- Handles reset logic
+- Initializes stack pointer
 
 ---
 
-### Loading Rules
-- Only segments with `p_type == PT_LOAD` are loaded
-- Copy `p_filesz` bytes from file offset `p_offset` to memory address `p_vaddr`
-- If `p_memsz > p_filesz`, zero-fill the remaining bytes
+# Boot System
+
+The VM includes an optional boot interface featuring:
+
+- ASCII boot banner
+- ANSI colorized output
+- Simulated boot delay
+- Debug initialization information
+
+These features are disabled during grading/testing to ensure output consistency.
 
 ---
 
-### ELF Loading Sequence
-1. Read and validate the ELF header
-2. Seek to the program header table
-3. For each program header:
-   - Skip non-loadable segments
-   - Copy segment data into memory
-   - Zero-fill extra memory if required
-4. Set the program counter to the ELF entry point
+# ELF Loader
+
+The emulator supports loading executable **ELF (Executable and Linkable Format)** files.
+
+## Supported ELF Constraints
+
+| Feature | Value |
+|---|---|
+| Architecture | RISC-V |
+| Bit Width | 32-bit |
+| Endianness | Little-endian |
+| File Type | Executable ELF |
+| Machine ID | 243 |
 
 ---
 
+## ELF Validation
 
+The loader validates:
 
-### Testing
-
-- Dump the full 1 MiB emulator memory to a binary file
-- Compare the dump against a flat binary
-- All unused memory should be zeroed
+- ELF magic bytes
+- RISC-V architecture
+- 32-bit format
+- Executable type
 
 ---
 
-### Key Notes
-- Section headers are ignored
-- Only program headers are used
-- Only executable, 32-bit RISC-V ELF files are supported
+## ELF Loading Process
+
+1. Read ELF header
+2. Validate file format
+3. Read program headers
+4. Load PT_LOAD segments into memory
+5. Zero-fill unused memory
+6. Set PC to ELF entry point
+
 ---
-## Project Structure
+
+# Pipeline Stages
+
+The emulator implements a simplified RISC-V instruction pipeline.
+
+---
+
+## 1. Fetch Stage
+
+The fetch stage:
+
+- Reads 4 bytes from memory
+- Uses little-endian assembly
+- Loads instruction at current PC
+- Stores result in `Instruction.inst`
+
+---
+
+## 2. Decode Stage
+
+The decode stage:
+
+- Determines instruction type
+- Extracts:
+  - opcode
+  - funct3
+  - funct7
+  - rs1
+  - rs2
+  - rd
+  - immediates
+- Loads operands
+- Selects ALU operation
+- Handles sign extension
+
+### Supported Decode Types
+
+| Type | Purpose |
+|---|---|
+| R | Register arithmetic |
+| I | Immediate arithmetic/load |
+| S | Store |
+| B | Branch |
+| U | Upper immediate |
+| J | Jump |
+
+---
+
+## 3. Execute Stage
+
+The execute stage performs ALU operations.
+
+### Supported ALU Operations
+
+| Operation | Description |
+|---|---|
+| Add | Signed addition |
+| Sub | Signed subtraction |
+| Mul | Signed multiplication |
+| Div | Signed division |
+| DivU | Unsigned division |
+| Rem | Signed remainder |
+| RemU | Unsigned remainder |
+| LeftShift | Logical left shift |
+| RightShiftA | Arithmetic right shift |
+| RightShiftL | Logical right shift |
+| And | Bitwise AND |
+| Or | Bitwise OR |
+| Xor | Bitwise XOR |
+| Slt | Signed less-than |
+| SltU | Unsigned less-than |
+| Cmp | Branch comparison |
+
+---
+
+## 4. Memory Stage
+
+Handles:
+
+- Loads
+- Stores
+- Byte access
+- Word access
+
+Supported memory instructions:
+
+- LB
+- LH
+- LW
+- LBU
+- LHU
+- SB
+- SH
+- SW
+
+---
+
+## 5. Writeback Stage
+
+The writeback stage:
+
+- Writes ALU results to registers
+- Updates the PC
+- Handles branch decisions
+- Executes system calls
+
+---
+
+# System Calls
+
+The emulator supports a basic syscall interface.
+
+| Syscall | a7 | Description |
+|---|---|---|
+| exit | 0 | Exit VM |
+| putchar | 1 | Print character |
+| getchar | 2 | Read character |
+| debug | 3 | Debug output |
+
+---
+
+# Instruction Structure
+
+```cpp
+struct Instruction {
+
+    uint32_t inst = 0;
+
+    int32_t left = 0;
+    int32_t right = 0;
+    int32_t result = 0;
+
+    int32_t disp = 0;
+
+    uint8_t rd = 0;
+    uint8_t memop = 0;
+    uint8_t aluop = 0;
+};
+```
+
+---
+
+# Project Structure
+
 ```bash
 riscv_vm/
 ├── include/
-│ ├── memory.hpp
-│ ├── registers.hpp
-│ ├── machine.hpp
-| ├── elf_loader.hpp
-│ └── utils.hpp
+│   ├── alu.hpp
+│   ├── decode.hpp
+│   ├── elf_loader.hpp
+│   ├── execute.hpp
+│   ├── fetch.hpp
+│   ├── instruction.hpp
+│   ├── machine.hpp
+│   ├── memory.hpp
+│   ├── register.hpp
+│   ├── utils.hpp
+│   └── writeback.hpp
 │
 ├── src/
-│ ├── memory.cpp
-│ ├── registers.cpp
-│ ├── machine.cpp
-│ ├── main.cpp
-│ ├── test_machine.cpp
-│ ├── test_elf.cpp
-│ ├── elf_loader.cpp
-|
+│   ├── decode.cpp
+│   ├── elf_loader.cpp
+│   ├── execute.cpp
+│   ├── fetch.cpp
+│   ├── machine.cpp
+│   ├── memory.cpp
+│   ├── register.cpp
+│   ├── writeback.cpp
+│   ├── test_machine.cpp
+│   ├── test_elf.cpp
+│   ├── test_fetch.cpp
+│   ├── test_decode.cpp
+│   └── main.cpp
+│
 ├── Makefile
 ├── README.md
-├── test_elf_output.txt
-└── test_machine_output.txt
-
+├── test_machine_output.txt
+└── test_elf_output.txt
 ```
 
 ---
 
-## Building the Project
+# Building the Project
 
-### Requirements
-- C++17-compatible compiler (`g++`)
-- Linux / WSL / MSCS VM environment
-- Make
+## Requirements
 
-### Build Instructions
+- C++17 compatible compiler
+- Linux / WSL / MSCS VM
+- GNU Make
+
+---
+
+## Build Instructions
 
 ```bash
 make clean
 make
+```
+
+---
+
+# Running the Emulator
+
+## Run Machine Tests
+
+```bash
 ./riscv_vm
 ```
-### Testing Machine For Grading
-- remove test_elf.cpp from the make file
+
+---
+
+## Run ELF Program
+
 ```bash
-make clean
-make
+./riscv_vm program.elf
+```
+
+---
+
+# Testing
+
+## Machine Test
+
+```bash
 ./riscv_vm > my_output.txt
 diff my_output.txt test_machine_output.txt
 ```
-### Testing ELF For Grading
-- remove test_machine.cpp from the make file
+
+---
+
+## ELF Loader Test
+
 ```bash
-make clean
-make
 ./riscv_vm ./isaproject/tests/stdio.elf
+
 hexdump -C memdump.bin > memdump.txt
+
 diff memdump.txt test_elf_output.txt
 ```
-### Example Out (Commented Out For Testing)
-```bash
-Booting RISC-V VM...
 
-██████╗ ██╗███████╗ ██████╗              ██╗   ██╗
-██╔══██╗██║██╔════╝██╔════╝              ██║   ██║
-██████╔╝██║███████╗██║         █████╗    ██║   ██║
-██╔══██╗██║╚════██║██║         ╚════╝    ╚██╗ ██╔╝
-██║  ██║██║███████║╚██████╗               ╚████╔╝
-╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝                ╚═══╝
+---
 
-RISC-V Machine initialized
-Memory Size : 1048576 bytes (1 MiB)
-Stack Ptr   : 0x100000
-PC          : 0
-```
+# Design Goals
+
+This project emphasizes:
+
+- Clean modular architecture
+- Accurate RISC-V behavior
+- Incremental pipeline development
+- Separation of hardware stages
+- Modern C++ design
+- Low-level systems programming concepts
+
+---
+
+# Key Computer Architecture Concepts
+
+This emulator demonstrates:
+
+- ISA implementation
+- Fetch-decode-execute cycle
+- Little-endian memory systems
+- Register architecture
+- Branch control flow
+- Program loading
+- ELF executable structure
+- System call interfaces
+- ALU design
+- Sign extension
+- Memory alignment
+
+---
+
+# Future Improvements
+
+Potential future extensions include:
+
+- Full RV32I coverage
+- Pipeline hazards
+- Branch prediction
+- Instruction cache
+- Data cache
+- Virtual memory
+- CSR support
+- Floating-point extension
+- Interactive debugger
+- Disassembler
+- Cycle counting
+- Performance metrics
+
+---
+
+# References
+
+- RISC-V Unprivileged ISA Specification
+- ELF Specification
+- COSC 530 Course Materials
+- GNU Binutils
+- RISC-V ABI Documentation
+
+---
+
+# Author
+
+Jarrod Romero  
+COSC 530 – Computer Architecture
